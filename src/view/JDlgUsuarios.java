@@ -253,7 +253,8 @@ public class JDlgUsuarios extends javax.swing.JDialog {
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
-
+        habilitar(false);
+        limpar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
@@ -281,8 +282,8 @@ public class JDlgUsuarios extends javax.swing.JDialog {
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
-
-
+        JDlgUsuariosPesquisar telaPesquisa = new JDlgUsuariosPesquisar(null, true);
+        telaPesquisa.setVisible(true);
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     /**

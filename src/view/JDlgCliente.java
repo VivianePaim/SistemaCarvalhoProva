@@ -395,6 +395,8 @@ public class JDlgCliente extends javax.swing.JDialog {
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
+        habilitar(false);
+        limpar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
@@ -405,6 +407,8 @@ public class JDlgCliente extends javax.swing.JDialog {
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
+        JDlgClientePesquisar telaPesquisa = new JDlgClientePesquisar(null, true);
+        telaPesquisa.setVisible(true);
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     /**
