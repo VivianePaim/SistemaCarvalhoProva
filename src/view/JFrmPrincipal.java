@@ -9,12 +9,12 @@ package view;
  *
  * @author Viviane
  */
-public class JFramePrincipal extends javax.swing.JFrame {
+public class JFrmPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form JFramePrincipal
      */
-    public JFramePrincipal() {
+    public JFrmPrincipal() {
         initComponents();
         setTitle("Sistema de Venda de Sapatos");
         setExtendedState(MAXIMIZED_BOTH);
@@ -44,7 +44,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         jMnuCadastro.setMnemonic('C');
         jMnuCadastro.setText("Cadastro ");
 
-        jMnuCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMnuCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMnuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cliente.png"))); // NOI18N
         jMnuCliente.setMnemonic('L');
         jMnuCliente.setText("Cliente ");
@@ -55,7 +55,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         });
         jMnuCadastro.add(jMnuCliente);
 
-        jMnuProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jMnuProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMnuProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/produto.png"))); // NOI18N
         jMnuProduto.setMnemonic('R');
         jMnuProduto.setText("Produto");
@@ -66,7 +66,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         });
         jMnuCadastro.add(jMnuProduto);
 
-        jMnuFornecedor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        jMnuFornecedor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMnuFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/vendedor.png"))); // NOI18N
         jMnuFornecedor.setMnemonic('N');
         jMnuFornecedor.setText("Fornecedor");
@@ -77,7 +77,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         });
         jMnuCadastro.add(jMnuFornecedor);
 
-        jMnuUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jMnuUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMnuUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
         jMnuUsuarios.setMnemonic('S');
         jMnuUsuarios.setText("Usuarios");
@@ -89,7 +89,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         jMnuCadastro.add(jMnuUsuarios);
         jMnuCadastro.add(jSeparator1);
 
-        jMnuSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMnuSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMnuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/exit.png"))); // NOI18N
         jMnuSair.setMnemonic('F');
         jMnuSair.setText("Sair");
@@ -167,20 +167,21 @@ public class JFramePrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFramePrincipal().setVisible(true);
+                new JFrmPrincipal().setVisible(true);
               
             }
         });

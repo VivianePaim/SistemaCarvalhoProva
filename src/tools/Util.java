@@ -14,22 +14,24 @@ import javax.swing.JTextField;
  * @author User
  */
 public class Util {
-   
-    public static void habilitar (boolean valor, JComponent ... comp){
-    for (int i = 0; i <comp.length; i++){
-    comp[i].setEnabled(valor);
-    
-    }
+
+    public static void habilitar(boolean valor, JComponent... comp) {
+        for (int i = 0; i < comp.length; i++) {
+            comp[i].setEnabled(valor);
+
+        }
 
     }
-    public static void limpar(JComponent ... comp){
-        for (int i = 0; i <comp.length; i++){
-    ((JTextField)comp[i]).setText("");
-    ((JCheckBox)comp[i]).setSelected(false);
-    ((JComboBox)comp[i]).setSelectedIndex(-1);
+
+    public static void limpar(JComponent... comp) {
+        for (JComponent c : comp) {
+            if (c instanceof JTextField) {
+                ((JTextField) c).setText("");
+            } else if (c instanceof JComboBox) {
+                ((JComboBox<?>) c).setSelectedIndex(0);
+            } else if (c instanceof JCheckBox) {
+                ((JCheckBox) c).setSelected(false);
+            }
+        }
     }
-        
-        
-    
-}
 }

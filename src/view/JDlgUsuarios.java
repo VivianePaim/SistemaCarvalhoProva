@@ -5,8 +5,8 @@
  */
 package view;
 
-
 import javax.swing.JOptionPane;
+import tools.Util;
 
 /**
  *
@@ -22,61 +22,24 @@ public class JDlgUsuarios extends javax.swing.JDialog {
         initComponents();
         setTitle("Usuario");
         setLocationRelativeTo(null);
-        desabilitar();
+        habilitar(false);
         limpar();
     }
 
-    private void desabilitar() {
-        jTxtCodigo.setEnabled(false);
-        jTxtNome.setEnabled(false);
-        jTxtApelido.setEnabled(false);
-        jTxtCPF.setEnabled(false);
-        jTxtDataDeNascimento.setEnabled(false);
-        jTxtSenha.setEnabled(false);
-
-        jCboNivel.setEnabled(false);
-
-        jChbAtivo.setEnabled(false);
-
-        jBtnIncluir.setEnabled(true);
-        jBtnAlterar.setEnabled(true);
-        jBtnPesquisar.setEnabled(true);
-        jBtnExcluir.setEnabled(true);
-
-        jBtnCancelar.setEnabled(false);
-        jBtnConfirmar.setEnabled(false);
-    }
-
-    private void habilitar() {
-        jTxtCodigo.setEnabled(true);
-        jTxtNome.setEnabled(true);
-        jTxtApelido.setEnabled(true);
-        jTxtCPF.setEnabled(true);
-        jTxtDataDeNascimento.setEnabled(true);
-        jTxtSenha.setEnabled(true);
-
-        jCboNivel.setEnabled(true);
-
-        jChbAtivo.setEnabled(true);
-
-        jBtnIncluir.setEnabled(false);
-        jBtnAlterar.setEnabled(false);
-        jBtnPesquisar.setEnabled(false);
-        jBtnExcluir.setEnabled(false);
-
-        jBtnCancelar.setEnabled(true);
-        jBtnConfirmar.setEnabled(true);
+    private void habilitar(boolean status) {
+        if (status) {
+            Util.habilitar(true, jTxtCodigo, jTxtNome, jTxtApelido, jTxtCPF, jTxtDataDeNascimento, jTxtSenha, jCboNivel, jChbAtivo,
+                    jBtnCancelar, jBtnConfirmar);
+            Util.habilitar(false, jBtnIncluir, jBtnAlterar, jBtnPesquisar, jBtnExcluir);
+        } else {
+            Util.habilitar(false, jTxtCodigo, jTxtNome, jTxtApelido, jTxtCPF, jTxtDataDeNascimento, jTxtSenha, jCboNivel, jChbAtivo,
+                    jBtnCancelar, jBtnConfirmar);
+            Util.habilitar(true, jBtnIncluir, jBtnAlterar, jBtnPesquisar, jBtnExcluir);
+        }
     }
 
     private void limpar() {
-        jTxtCodigo.setText("");
-        jTxtNome.setText("");
-        jTxtApelido.setText("");
-        jTxtCPF.setText("");
-        jTxtDataDeNascimento.setText("");
-        jTxtSenha.setText("");
-
-        jCboNivel.setSelectedIndex(0);
+        Util.limpar(jTxtCodigo, jTxtNome, jTxtApelido, jTxtCPF, jTxtDataDeNascimento, jTxtSenha, jCboNivel, jChbAtivo);
     }
 
     /**
@@ -285,7 +248,7 @@ public class JDlgUsuarios extends javax.swing.JDialog {
     private void jBtnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirActionPerformed
         // TODO add your handling code here:
         limpar();
-        habilitar();
+        habilitar(true);
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
@@ -295,25 +258,32 @@ public class JDlgUsuarios extends javax.swing.JDialog {
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
-        habilitar();
+        habilitar(true);
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
-    
+        int resp = JOptionPane.showConfirmDialog(null, "Confirme a exclusão!", "Deletar o registro", JOptionPane.YES_OPTION);
+        if (resp == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(null, "Exclusão realizada");
+            limpar();
+        } else {
+            JOptionPane.showMessageDialog(null, "Exclusão cancelada");
+            habilitar(false);
+        }
     }//GEN-LAST:event_jBtnExcluirActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
-        desabilitar();
+        habilitar(false);
+        limpar();
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
-   
+
 
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
-    
 
     /**
      * @param args the command line arguments
