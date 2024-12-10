@@ -5,6 +5,9 @@
  */
 package view;
 
+import bean.VccFornecedor;
+import java.sql.Date;
+import java.text.ParseException;
 import javax.swing.JOptionPane;
 import tools.Util;
 
@@ -43,6 +46,51 @@ public class JDlgFornecedor extends javax.swing.JDialog {
     private void limpar() {
         Util.limpar(jTxtCodigo, jTxtNome, jTxtEmail, jTxtDataDeNascimento, jTxtTelefone, jTxtCNPJ, jTxtEndereco, jTxtCidade,
                 jTxtCEP, jCboStatus, jTxtEstado, jTxtPreco, jTxtQualidade, jTxtQuantidade, jTxtPrazo);
+    }
+
+    private VccFornecedor viewbean() throws ParseException {
+
+        VccFornecedor vcc_fornecedor = new VccFornecedor();
+
+        int cod = Util.strToInt(jTxtCodigo.getText());
+
+        vcc_fornecedor.setVccIdFornecedor(cod);
+        vcc_fornecedor.setVccNome(jTxtNome.getText());
+        vcc_fornecedor.setVccEmail(jTxtEmail.getText());
+        vcc_fornecedor.setVccDataNasc(Util.strToDate(jTxtDataDeNascimento.getText()));
+        vcc_fornecedor.setVccNumeroTel(jTxtTelefone.getText());
+        vcc_fornecedor.setVccCnpj(jTxtCNPJ.getText());
+        vcc_fornecedor.setVccEndereco(jTxtEndereco.getText());
+        vcc_fornecedor.setVccCidade(jTxtCidade.getText());
+        vcc_fornecedor.setVccCep(jTxtCEP.getText());
+        vcc_fornecedor.setVccEstado(jTxtEstado.getText());
+        vcc_fornecedor.setVccStatus(String.valueOf(jCboStatus.getSelectedIndex()));
+        vcc_fornecedor.setVccPreco(Util.strToInt(jTxtPreco.getText()));
+        vcc_fornecedor.setVccQualidade(jTxtQualidade.getText());
+        vcc_fornecedor.setVccQuantidade(Util.strToInt(jTxtQuantidade.getText()));
+        vcc_fornecedor.setVccPrazo(Util.strToDate(jTxtPrazo.getText()));
+
+        return vcc_fornecedor;
+    }
+
+    private void beanview(VccFornecedor fornecedor) {
+
+        jTxtCodigo.setText(Util.intToStr(fornecedor.getVccIdFornecedor()));
+        jTxtNome.setText(fornecedor.getVccNome());
+        jTxtEmail.setText(fornecedor.getVccEmail());
+        jTxtDataDeNascimento.setText(Util.dateToStr((Date) fornecedor.getVccDataNasc()));
+        jTxtTelefone.setText(fornecedor.getVccNumeroTel());
+        jTxtCNPJ.setText(fornecedor.getVccCep());
+        jTxtEndereco.setText(fornecedor.getVccEndereco());
+        jTxtCidade.setText(fornecedor.getVccCidade());
+        jTxtCEP.setText(fornecedor.getVccCep());
+        jTxtEstado.setText(fornecedor.getVccEstado());
+        jCboStatus.setSelectedIndex(Integer.valueOf(fornecedor.getVccStatus()));
+        jTxtPreco.setText(Util.doubleToStr(fornecedor.getVccPreco()));
+        jTxtQualidade.setText(fornecedor.getVccQualidade());
+        jTxtQuantidade.setText(Util.intToStr(fornecedor.getVccQuantidade()));
+        jTxtPrazo.setText(Util.dateToStr((Date) fornecedor.getVccPrazo()));
+
     }
 
     /**

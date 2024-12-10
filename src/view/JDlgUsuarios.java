@@ -5,6 +5,9 @@
  */
 package view;
 
+import bean.VccUsuario;
+import java.sql.Date;
+import java.text.ParseException;
 import javax.swing.JOptionPane;
 import tools.Util;
 
@@ -40,6 +43,49 @@ public class JDlgUsuarios extends javax.swing.JDialog {
 
     private void limpar() {
         Util.limpar(jTxtCodigo, jTxtNome, jTxtApelido, jTxtCPF, jTxtDataDeNascimento, jTxtSenha, jCboNivel, jChbAtivo);
+    }
+
+    private VccUsuario viewbean() throws ParseException {
+        VccUsuario vcc_usuario = new VccUsuario();
+
+        //adicionando ao bean id
+        int cod = Util.strToInt(jTxtCodigo.getText());
+        vcc_usuario.setVccIdUsuario(cod);
+
+        vcc_usuario.setVccNome(jTxtNome.getText());
+        vcc_usuario.setVccApelido(jTxtApelido.getText());
+        vcc_usuario.setVccCpf(jTxtCPF.getText());
+        vcc_usuario.setVccDataNasc(Util.strToDate(jTxtDataDeNascimento.getText()));
+        vcc_usuario.setVccSenha(jTxtSenha.getText());
+
+        vcc_usuario.setVccNivel(jCboNivel.getSelectedIndex());
+
+        if (jChbAtivo.isSelected() == true) {
+            vcc_usuario.setVccAtivo("S");
+        } else {
+            vcc_usuario.setVccAtivo("N");
+        }
+
+        return vcc_usuario;
+
+    }
+
+    private void beanview(VccUsuario usuario) {
+
+        jTxtCodigo.setText(Util.intToStr(usuario.getVccIdUsuario()));
+        jTxtNome.setText(usuario.getVccNome());
+        jTxtApelido.setText(usuario.getVccApelido());
+        jTxtCPF.setText(usuario.getVccCpf());
+        jTxtDataDeNascimento.setText(Util.dateToStr((Date) usuario.getVccDataNasc()));
+        jTxtSenha.setText(usuario.getVccSenha());
+        jCboNivel.setSelectedIndex(usuario.getVccNivel());
+
+        if (usuario.getVccAtivo() == "S") {
+            jChbAtivo.setEnabled(true);
+        } else {
+            jChbAtivo.setEnabled(false);
+        }
+
     }
 
     /**

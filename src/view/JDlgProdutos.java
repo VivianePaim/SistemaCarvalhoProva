@@ -5,6 +5,9 @@
  */
 package view;
 
+import bean.VccProdutos;
+import java.sql.Date;
+import java.text.ParseException;
 import javax.swing.JOptionPane;
 import tools.Util;
 
@@ -59,6 +62,37 @@ public class JDlgProdutos extends javax.swing.JDialog {
 
     private void limpar() {
         Util.limpar(jTxtCodigo, jTxtNome, jTxtDescricao, jTxtMarca, jTxtEstoque, jTxtPreco, jTxtTamanho, jTxtDataDeFabricacao);
+    }
+
+    private VccProdutos viewbean() throws ParseException {
+
+        VccProdutos vcc_produtos = new VccProdutos();
+        int cod = Util.strToInt(jTxtCodigo.getText());
+
+        vcc_produtos.setVccIdProdutos(cod);
+        vcc_produtos.setVccNome(jTxtNome.getText());
+        vcc_produtos.setVccDescricao(jTxtDescricao.getText());
+        vcc_produtos.setVccMarca(jTxtMarca.getText());
+        vcc_produtos.setVccEstoque(Integer.valueOf(jTxtEstoque.getText()));
+        vcc_produtos.setVccPreco(Util.strToInt(jTxtPreco.getText()));
+        vcc_produtos.setVccTamanho(jTxtTamanho.getText());
+        vcc_produtos.setVccDataFabricacao(Util.strToDate(jTxtDataDeFabricacao.getText()));
+
+        return vcc_produtos;
+    }
+
+    private void beanview(VccProdutos produtos) {
+
+        jTxtCodigo.setText(Util.intToStr(produtos.getVccIdProdutos()));
+        
+        jTxtNome.setText(produtos.getVccNome());
+        jTxtDescricao.setText(produtos.getVccDescricao());
+        jTxtMarca.setText(produtos.getVccMarca());
+        jTxtEstoque.setText(Util.intToStr(produtos.getVccEstoque()));
+        jTxtPreco.setText(Util.doubleToStr(produtos.getVccPreco()));
+        jTxtTamanho.setText(produtos.getVccTamanho());
+        jTxtDataDeFabricacao.setText(Util.dateToStr((Date) produtos.getVccDataFabricacao()));
+
     }
 
     /**

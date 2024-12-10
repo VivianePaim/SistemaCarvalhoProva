@@ -26,7 +26,7 @@ public class VccProdutos  implements java.io.Serializable {
      private Date vccDataFabricacao;
      private String vccDescricao;
      private String vccMarca;
-     private int vccPreco;
+     private double vccPreco;
      private int vccEstoque;
      private String vccTamanho;
     
@@ -99,7 +99,7 @@ public class VccProdutos  implements java.io.Serializable {
 
     
     @Column(name="vcc_preco", nullable=false, precision=10)
-    public int getVccPreco() {
+    public double getVccPreco() {
         return this.vccPreco;
     }
     

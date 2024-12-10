@@ -32,7 +32,7 @@ public class VccFornecedor  implements java.io.Serializable {
      private String vccCep;
      private String vccCidade;
      private String vccEstado;
-     private int vccPreco;
+     private double vccPreco;
      private String vccQualidade;
      private int vccQuantidade;
      private Date vccPrazo;
@@ -172,7 +172,7 @@ public class VccFornecedor  implements java.io.Serializable {
 
     
     @Column(name="vcc_preco", nullable=false, precision=10)
-    public int getVccPreco() {
+    public double getVccPreco() {
         return this.vccPreco;
     }
     

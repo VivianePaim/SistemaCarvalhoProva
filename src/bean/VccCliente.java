@@ -2,7 +2,7 @@ package bean;
 // Generated 09/12/2024 17:14:49 by Hibernate Tools 4.3.1
 
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;

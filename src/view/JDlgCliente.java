@@ -5,6 +5,10 @@
  */
 package view;
 
+import bean.VccCliente;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import tools.Util;
 
@@ -47,6 +51,63 @@ public class JDlgCliente extends javax.swing.JDialog {
         jCboSexo.setSelectedIndex(0);
         Util.limpar(jTxtCodigo, jTxtNome, jTxtEmail, jTxtDataDeNasc, jCboSexo, jTxtCPF, jTxtRG, jTxtTelefone, jTxtEndereco,
                 jTxtCidade, jTxtCEP, jTxtEstado, jTxtDataDeCadastro, jTxtDataUltimaCompra, jTxtStatusCliente);
+    }
+
+    private VccCliente viewbean() throws ParseException {
+        VccCliente vcc_cliente = new VccCliente();
+
+        int cod = Util.strToInt(jTxtCodigo.getText());
+
+        vcc_cliente.setVccIdCliente(cod);
+        vcc_cliente.setVccNome(jTxtNome.getText());
+        vcc_cliente.setVccEmail(jTxtEmail.getText());
+        vcc_cliente.setVccDataNasc(Util.strToDate(jTxtDataDeNasc.getText()));
+        vcc_cliente.setVccCpf(jTxtCPF.getText());
+        vcc_cliente.setVccRg(jTxtRG.getText());
+        vcc_cliente.setVccNumeroTelefone(jTxtTelefone.getText());
+        vcc_cliente.setVccEndereco(jTxtEndereco.getText());
+        vcc_cliente.setVccCidade(jTxtCidade.getText());
+        vcc_cliente.setVccCep(jTxtCEP.getText());
+        vcc_cliente.setVccEstados(jTxtEstado.getText());
+        vcc_cliente.setVccDataCadastro(Util.strToDate(jTxtDataDeCadastro.getText()));
+        vcc_cliente.setVccDataUltimaCompra(Util.strToDate(jTxtDataUltimaCompra.getText()));
+        vcc_cliente.setVccStatusCliente(jTxtStatusCliente.getText());
+
+        if (jCboSexo.getSelectedIndex() == 0) {
+            vcc_cliente.setVccSexo("M");
+        } else if (jCboSexo.getSelectedIndex() == 1) {
+            vcc_cliente.setVccSexo("F");
+        } else if (jCboSexo.getSelectedIndex() == 2) {
+            vcc_cliente.setVccSexo("N");
+        }
+        return vcc_cliente;
+    }
+
+    private void beanview(VccCliente cliente) {
+
+        jTxtCodigo.setText(Util.intToStr(cliente.getVccIdCliente()));
+
+        jTxtNome.setText(cliente.getVccNome());
+        jTxtEmail.setText(cliente.getVccEmail());
+        jTxtDataDeNasc.setText(Util.dateToStr(cliente.getVccDataNasc()));
+        jTxtCPF.setText(cliente.getVccCpf());
+        jTxtRG.setText(cliente.getVccRg());
+        jTxtTelefone.setText(cliente.getVccNumeroTelefone());
+        jTxtEndereco.setText(cliente.getVccEndereco());
+        jTxtCidade.setText(cliente.getVccCidade());
+        jTxtCEP.setText(cliente.getVccCpf());
+        jTxtEstado.setText(cliente.getVccEstados());
+        jTxtDataDeCadastro.setText(Util.dateToStr(cliente.getVccDataCadastro()));
+        jTxtDataUltimaCompra.setText(Util.dateToStr(cliente.getVccDataUltimaCompra()));
+        jTxtStatusCliente.setText(cliente.getVccStatusCliente());
+
+        if (cliente.getVccSexo() == "M") {
+            jCboSexo.setSelectedIndex(0);
+        } else if (cliente.getVccSexo() == "F") {
+            jCboSexo.setSelectedIndex(1);
+        } else if (cliente.getVccSexo() == "N") {
+            jCboSexo.setSelectedIndex(2);
+        }
     }
 
     /**
