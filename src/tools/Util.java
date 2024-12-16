@@ -32,7 +32,7 @@ public class Util {
             if (c instanceof JTextField) {
                 ((JTextField) c).setText("");
             } else if (c instanceof JComboBox) {
-                ((JComboBox<?>) c).setSelectedIndex(0);
+                ((JComboBox<?>) c).setSelectedIndex(-1);
             } else if (c instanceof JCheckBox) {
                 ((JCheckBox) c).setSelected(false);
             }

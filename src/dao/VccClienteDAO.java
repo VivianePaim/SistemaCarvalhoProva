@@ -33,8 +33,8 @@ public class VccClienteDAO extends DAO_Abstract {
     @Override
     public void delete(Object object) {
         session.beginTransaction();
-        session.flush();
-        session.clear();
+        session.flush(); //grava
+        session.clear(); //limpa
         session.delete(object);
         session.getTransaction().commit();
     }

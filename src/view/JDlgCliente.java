@@ -9,8 +9,6 @@ import bean.VccCliente;
 import dao.VccClienteDAO;
 import java.sql.Date;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import tools.Util;
 
@@ -20,7 +18,6 @@ import tools.Util;
  */
 public class JDlgCliente extends javax.swing.JDialog {
 
-    private Object cad;
     boolean incluir;
     boolean pesquisar;
 

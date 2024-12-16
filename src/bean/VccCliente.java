@@ -207,6 +207,23 @@ public class VccCliente  implements java.io.Serializable {
         this.vccEstados = vccEstados;
     }
 
+    
+    @Override
+    public String toString() {
+        return this.getVccNome();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof VccCliente) {
+            VccCliente cliente = (VccCliente) obj;
+            if (cliente.getVccIdCliente()== this.getVccIdCliente()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 

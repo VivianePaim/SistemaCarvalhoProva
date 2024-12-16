@@ -28,7 +28,7 @@ public class VccVenda  implements java.io.Serializable {
      private VccCliente vccCliente;
      private VccFornecedor vccFornecedor;
      private Date vccDataVenda;
-     private int vccTotalVenda;
+     private double vccTotalVenda;
    
 
     public VccVenda() {
@@ -86,11 +86,11 @@ public class VccVenda  implements java.io.Serializable {
 
     
     @Column(name="vcc_totalVenda", nullable=false, precision=10)
-    public int getVccTotalVenda() {
+    public double getVccTotalVenda() {
         return this.vccTotalVenda;
     }
     
-    public void setVccTotalVenda(int vccTotalVenda) {
+    public void setVccTotalVenda(double vccTotalVenda) {
         this.vccTotalVenda = vccTotalVenda;
     }
 
