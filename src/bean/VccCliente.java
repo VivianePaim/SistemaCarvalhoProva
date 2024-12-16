@@ -2,14 +2,10 @@ package bean;
 // Generated 09/12/2024 17:14:49 by Hibernate Tools 4.3.1
 
 
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;

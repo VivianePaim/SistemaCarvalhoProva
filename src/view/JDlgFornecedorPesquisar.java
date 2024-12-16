@@ -4,20 +4,35 @@
  */
 package view;
 
+import bean.VccFornecedor;
+import dao.VccFornecedorDAO;
+import java.util.List;
+
 /**
  *
  * @author caviv
  */
 public class JDlgFornecedorPesquisar extends javax.swing.JDialog {
+    
+     VccControllerFornecedor controllerFornecedor;
+    
+    JDlgFornecedor jDlgFornecedor;
+    
 
-    /**
-     * Creates new form JDlgUsuarioPesquisar
-     */
+    
     public JDlgFornecedorPesquisar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Tabela Pesquisa Fornecedor");
         setLocationRelativeTo(null);
+        
+         controllerFornecedor= new VccControllerFornecedor();
+        VccFornecedorDAO dao = new VccFornecedorDAO();
+        List lista = dao.listAll();
+        controllerFornecedor.setList(lista);
+        jTblPesquisa.setModel(controllerFornecedor);
+        
+
     }
 
     /**
@@ -81,9 +96,18 @@ public class JDlgFornecedorPesquisar extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ 
+    public void setTelaAnterior(JDlgFornecedor jDlgFornecedor){
+        this.jDlgFornecedor = jDlgFornecedor;
+    }
+    
     private void jBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnOKActionPerformed
         // TODO add your handling code here:
+        VccFornecedor fornecedor = controllerFornecedor.getBean(jTblPesquisa.getSelectedRow());
+        jDlgFornecedor.beanview(fornecedor);
+        
+        
+        
         this.setVisible(false);
     }//GEN-LAST:event_jBtnOKActionPerformed
 
@@ -135,4 +159,6 @@ public class JDlgFornecedorPesquisar extends javax.swing.JDialog {
     private javax.swing.JScrollPane jSlpPesquisa;
     private javax.swing.JTable jTblPesquisa;
     // End of variables declaration//GEN-END:variables
+
+   
 }

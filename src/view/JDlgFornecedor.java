@@ -6,8 +6,11 @@
 package view;
 
 import bean.VccFornecedor;
+import dao.VccFornecedorDAO;
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import tools.Util;
 
@@ -17,6 +20,9 @@ import tools.Util;
  */
 public class JDlgFornecedor extends javax.swing.JDialog {
 
+    private Object cad;
+    boolean incluir;
+    boolean pesquisar;
     /**
      * Creates new form JDlgFornecedor
      */
@@ -65,7 +71,7 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         vcc_fornecedor.setVccCep(jTxtCEP.getText());
         vcc_fornecedor.setVccEstado(jTxtEstado.getText());
         vcc_fornecedor.setVccStatus(String.valueOf(jCboStatus.getSelectedIndex()));
-        vcc_fornecedor.setVccPreco(Util.strToInt(jTxtPreco.getText()));
+        vcc_fornecedor.setVccPreco(Util.strToDouble(jTxtPreco.getText()));
         vcc_fornecedor.setVccQualidade(jTxtQualidade.getText());
         vcc_fornecedor.setVccQuantidade(Util.strToInt(jTxtQuantidade.getText()));
         vcc_fornecedor.setVccPrazo(Util.strToDate(jTxtPrazo.getText()));
@@ -73,7 +79,7 @@ public class JDlgFornecedor extends javax.swing.JDialog {
         return vcc_fornecedor;
     }
 
-    private void beanview(VccFornecedor fornecedor) {
+    void beanview(VccFornecedor fornecedor) {
 
         jTxtCodigo.setText(Util.intToStr(fornecedor.getVccIdFornecedor()));
         jTxtNome.setText(fornecedor.getVccNome());
@@ -403,21 +409,42 @@ public class JDlgFornecedor extends javax.swing.JDialog {
 
     private void jBtnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirActionPerformed
         // TODO add your handling code here:
-        limpar();
+       limpar();
         habilitar(true);
+        incluir = true;
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
+      if (pesquisar == false) {
+            JDlgFornecedorPesquisar telaPesquisa = new JDlgFornecedorPesquisar(null, true);
+            telaPesquisa.setTelaAnterior(this);
+            telaPesquisa.setVisible(true);
+        }
         habilitar(true);
+        Util.habilitar(false, jTxtCodigo);
+        incluir = false;
+        pesquisar = false;
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
-        int resp = JOptionPane.showConfirmDialog(null, "Confirme a exclusão!", "Deletar o registro", JOptionPane.YES_OPTION);
-        if (resp == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(null, "Exclusão realizada");
-            limpar();
+        if (pesquisar == false) {
+            JDlgFornecedorPesquisar telaPesquisa = new JDlgFornecedorPesquisar(null, true);
+            telaPesquisa.setTelaAnterior(this);
+            telaPesquisa.setVisible(true);
+        }
+        if (Util.perguntar("Confirme exclusão!", "Deletar registro")) {
+            try {
+                VccFornecedor fornecedor = viewbean();
+                VccFornecedorDAO dao = new VccFornecedorDAO();
+                dao.delete(fornecedor);
+                JOptionPane.showMessageDialog(null, "Exclusão realizada");
+                limpar();
+            } catch (ParseException ex) {
+                Logger.getLogger(JDlgFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } else {
             JOptionPane.showMessageDialog(null, "Exclusão cancelada");
             habilitar(false);
@@ -425,13 +452,26 @@ public class JDlgFornecedor extends javax.swing.JDialog {
     }//GEN-LAST:event_jBtnExcluirActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
-        // TODO add your handling code here:
-        habilitar(false);
-        limpar();
+        try {
+            // TODO add your handling code here:
+            VccFornecedor fornecedor = viewbean();
+            VccFornecedorDAO dao = new VccFornecedorDAO();
+            if (incluir == true) {
+                dao.insert(fornecedor);
+            } else {
+                dao.update(fornecedor);
+            }
+            habilitar(false);
+            
+            limpar();
+        } catch (ParseException ex) {
+            Logger.getLogger(JDlgFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
+        incluir = false;
         habilitar(false);
         limpar();
     }//GEN-LAST:event_jBtnCancelarActionPerformed
@@ -439,7 +479,9 @@ public class JDlgFornecedor extends javax.swing.JDialog {
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
         JDlgFornecedorPesquisar telaPesquisa = new JDlgFornecedorPesquisar(null, true);
+        telaPesquisa.setTelaAnterior(this);
         telaPesquisa.setVisible(true);
+         pesquisar=true;
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     /**

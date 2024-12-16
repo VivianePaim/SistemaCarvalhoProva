@@ -176,7 +176,7 @@ public class VccFornecedor  implements java.io.Serializable {
         return this.vccPreco;
     }
     
-    public void setVccPreco(int vccPreco) {
+    public void setVccPreco(double vccPreco) {
         this.vccPreco = vccPreco;
     }
 

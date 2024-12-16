@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package view;
-
+ 
+import bean.VccProdutos;
+import dao.VccProdutosDAO;
+import java.util.List;
 /**
  *
  * @author caviv
@@ -13,11 +16,21 @@ public class JDlgProdutosPesquisar extends javax.swing.JDialog {
     /**
      * Creates new form JDlgUsuarioPesquisar
      */
+     VccControllerProdutos controllerProdutos;
+    
+    JDlgProdutos jDlgProdutos;
+    
     public JDlgProdutosPesquisar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Tabela Pesquisa Produtos");
         setLocationRelativeTo(null);
+        
+        controllerProdutos = new VccControllerProdutos();
+        VccProdutosDAO dao = new VccProdutosDAO();
+        List lista = dao.listAll();
+        controllerProdutos.setList(lista);
+        jTblPesquisa.setModel(controllerProdutos);
     }
 
     /**
@@ -81,9 +94,17 @@ public class JDlgProdutosPesquisar extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+ public void setTelaAnterior(JDlgProdutos jDlgProdutos){
+        this.jDlgProdutos = jDlgProdutos;
+    }
+    
     private void jBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnOKActionPerformed
         // TODO add your handling code here:
+      VccProdutos produtos = controllerProdutos.getBean(jTblPesquisa.getSelectedRow());
+        jDlgProdutos.beanview(produtos);
+        
+        
+        
         this.setVisible(false);
     }//GEN-LAST:event_jBtnOKActionPerformed
 
@@ -135,4 +156,6 @@ public class JDlgProdutosPesquisar extends javax.swing.JDialog {
     private javax.swing.JScrollPane jSlpPesquisa;
     private javax.swing.JTable jTblPesquisa;
     // End of variables declaration//GEN-END:variables
+
+    
 }

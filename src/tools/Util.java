@@ -70,8 +70,8 @@ public class Util {
         JOptionPane.showMessageDialog(null, mensagem);
     }
 
-    public static boolean perguntar(String mensagem) {
-        int resp = JOptionPane.showConfirmDialog(null, mensagem);
+   public static boolean perguntar(String mensagem, String titulo) {
+        int resp = JOptionPane.showConfirmDialog(null, mensagem, titulo, JOptionPane.YES_OPTION);
         return resp == JOptionPane.YES_OPTION;
     }
 }

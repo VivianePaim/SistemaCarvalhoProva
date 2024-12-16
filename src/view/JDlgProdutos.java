@@ -6,8 +6,11 @@
 package view;
 
 import bean.VccProdutos;
+import dao.VccProdutosDAO;
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import tools.Util;
 
@@ -17,6 +20,8 @@ import tools.Util;
  */
 public class JDlgProdutos extends javax.swing.JDialog {
 
+    boolean incluir;
+    boolean pesquisar;
     /**
      * Creates new form JDlgProduto
      */
@@ -74,14 +79,14 @@ public class JDlgProdutos extends javax.swing.JDialog {
         vcc_produtos.setVccDescricao(jTxtDescricao.getText());
         vcc_produtos.setVccMarca(jTxtMarca.getText());
         vcc_produtos.setVccEstoque(Integer.valueOf(jTxtEstoque.getText()));
-        vcc_produtos.setVccPreco(Util.strToInt(jTxtPreco.getText()));
+        vcc_produtos.setVccPreco(Util.strToDouble(jTxtPreco.getText()));
         vcc_produtos.setVccTamanho(jTxtTamanho.getText());
         vcc_produtos.setVccDataFabricacao(Util.strToDate(jTxtDataDeFabricacao.getText()));
 
         return vcc_produtos;
     }
 
-    private void beanview(VccProdutos produtos) {
+    void beanview(VccProdutos produtos) {
 
         jTxtCodigo.setText(Util.intToStr(produtos.getVccIdProdutos()));
         
@@ -294,19 +299,40 @@ public class JDlgProdutos extends javax.swing.JDialog {
         // TODO add your handling code here:
         limpar();
         habilitar(true);
+        incluir = true;
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
+        if (pesquisar == false) {
+            JDlgProdutosPesquisar telaPesquisa = new JDlgProdutosPesquisar(null, true);
+            telaPesquisa.setTelaAnterior(this);
+            telaPesquisa.setVisible(true);
+        }
         habilitar(true);
+        Util.habilitar(false, jTxtCodigo);
+        incluir = false;
+        pesquisar = false;
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
-        int resp = JOptionPane.showConfirmDialog(null, "Confirme a exclusão!", "Deletar o registro", JOptionPane.YES_OPTION);
-        if (resp == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(null, "Exclusão realizada");
-            limpar();
+         if (pesquisar == false) {
+            JDlgProdutosPesquisar telaPesquisa = new JDlgProdutosPesquisar(null, true);
+            telaPesquisa.setTelaAnterior(this);
+            telaPesquisa.setVisible(true);
+        }
+        if (Util.perguntar("Confirme exclusão!", "Deletar registro")) {
+             try {
+                 VccProdutos produtos = viewbean();
+                 VccProdutosDAO dao = new VccProdutosDAO();
+                 dao.delete(produtos);
+                 JOptionPane.showMessageDialog(null, "Exclusão realizada");
+                 limpar();
+             } catch (ParseException ex) {
+                 Logger.getLogger(JDlgProdutos.class.getName()).log(Level.SEVERE, null, ex);
+             }
+
         } else {
             JOptionPane.showMessageDialog(null, "Exclusão cancelada");
             habilitar(false);
@@ -314,21 +340,36 @@ public class JDlgProdutos extends javax.swing.JDialog {
     }//GEN-LAST:event_jBtnExcluirActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
-        // TODO add your handling code here:
-        habilitar(false);
-        limpar();
+        try {
+            // TODO add your handling code here:
+            VccProdutos produtos = viewbean();
+            VccProdutosDAO dao = new VccProdutosDAO();
+            if (incluir == true) {
+                dao.insert(produtos);
+            } else {
+                dao.update(produtos);
+            }
+            habilitar(false);
+            
+            limpar();
+        } catch (ParseException ex) {
+            Logger.getLogger(JDlgProdutos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
+       incluir = false;
         habilitar(false);
         limpar();
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
-        JDlgProdutosPesquisar telaPesquisa = new JDlgProdutosPesquisar(null, true);
+          JDlgProdutosPesquisar telaPesquisa = new JDlgProdutosPesquisar(null, true);
+        telaPesquisa.setTelaAnterior(this);
         telaPesquisa.setVisible(true);
+         pesquisar=true;
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     /**

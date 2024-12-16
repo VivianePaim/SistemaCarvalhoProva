@@ -6,6 +6,8 @@
 package view;
 
 import bean.VccCliente;
+import dao.VccClienteDAO;
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,8 @@ import tools.Util;
 public class JDlgCliente extends javax.swing.JDialog {
 
     private Object cad;
+    boolean incluir;
+    boolean pesquisar;
 
     /**
      * Creates new form JDlgCliente
@@ -53,43 +57,48 @@ public class JDlgCliente extends javax.swing.JDialog {
                 jTxtCidade, jTxtCEP, jTxtEstado, jTxtDataDeCadastro, jTxtDataUltimaCompra, jTxtStatusCliente);
     }
 
-    private VccCliente viewbean() throws ParseException {
+    private VccCliente viewbean() {
         VccCliente vcc_cliente = new VccCliente();
+        try {
 
-        int cod = Util.strToInt(jTxtCodigo.getText());
+            int cod = Util.strToInt(jTxtCodigo.getText());
 
-        vcc_cliente.setVccIdCliente(cod);
-        vcc_cliente.setVccNome(jTxtNome.getText());
-        vcc_cliente.setVccEmail(jTxtEmail.getText());
-        vcc_cliente.setVccDataNasc(Util.strToDate(jTxtDataDeNasc.getText()));
-        vcc_cliente.setVccCpf(jTxtCPF.getText());
-        vcc_cliente.setVccRg(jTxtRG.getText());
-        vcc_cliente.setVccNumeroTelefone(jTxtTelefone.getText());
-        vcc_cliente.setVccEndereco(jTxtEndereco.getText());
-        vcc_cliente.setVccCidade(jTxtCidade.getText());
-        vcc_cliente.setVccCep(jTxtCEP.getText());
-        vcc_cliente.setVccEstados(jTxtEstado.getText());
-        vcc_cliente.setVccDataCadastro(Util.strToDate(jTxtDataDeCadastro.getText()));
-        vcc_cliente.setVccDataUltimaCompra(Util.strToDate(jTxtDataUltimaCompra.getText()));
-        vcc_cliente.setVccStatusCliente(jTxtStatusCliente.getText());
+            vcc_cliente.setVccIdCliente(cod);
+            vcc_cliente.setVccNome(jTxtNome.getText());
+            vcc_cliente.setVccEmail(jTxtEmail.getText());
+            vcc_cliente.setVccDataNasc(Util.strToDate(jTxtDataDeNasc.getText()));
+            vcc_cliente.setVccCpf(jTxtCPF.getText());
+            vcc_cliente.setVccRg(jTxtRG.getText());
+            vcc_cliente.setVccNumeroTelefone(jTxtTelefone.getText());
+            vcc_cliente.setVccEndereco(jTxtEndereco.getText());
+            vcc_cliente.setVccCidade(jTxtCidade.getText());
+            vcc_cliente.setVccCep(jTxtCEP.getText());
+            vcc_cliente.setVccEstados(jTxtEstado.getText());
+            vcc_cliente.setVccDataCadastro(Util.strToDate(jTxtDataDeCadastro.getText()));
+            vcc_cliente.setVccDataUltimaCompra(Util.strToDate(jTxtDataUltimaCompra.getText()));
+            vcc_cliente.setVccStatusCliente(jTxtStatusCliente.getText());
 
-        if (jCboSexo.getSelectedIndex() == 0) {
-            vcc_cliente.setVccSexo("M");
-        } else if (jCboSexo.getSelectedIndex() == 1) {
-            vcc_cliente.setVccSexo("F");
-        } else if (jCboSexo.getSelectedIndex() == 2) {
-            vcc_cliente.setVccSexo("N");
+            if (jCboSexo.getSelectedIndex() == 0) {
+                vcc_cliente.setVccSexo("M");
+            } else if (jCboSexo.getSelectedIndex() == 1) {
+                vcc_cliente.setVccSexo("F");
+            } else if (jCboSexo.getSelectedIndex() == 2) {
+                vcc_cliente.setVccSexo("N");
+            }
+            return vcc_cliente;
+        } catch (ParseException ex) {
+            System.err.println("Erro na conversão das data");
         }
         return vcc_cliente;
     }
 
-    private void beanview(VccCliente cliente) {
+    public void beanview(VccCliente cliente) {
 
         jTxtCodigo.setText(Util.intToStr(cliente.getVccIdCliente()));
 
         jTxtNome.setText(cliente.getVccNome());
         jTxtEmail.setText(cliente.getVccEmail());
-        jTxtDataDeNasc.setText(Util.dateToStr(cliente.getVccDataNasc()));
+        jTxtDataDeNasc.setText(Util.dateToStr((Date) cliente.getVccDataNasc()));
         jTxtCPF.setText(cliente.getVccCpf());
         jTxtRG.setText(cliente.getVccRg());
         jTxtTelefone.setText(cliente.getVccNumeroTelefone());
@@ -97,8 +106,8 @@ public class JDlgCliente extends javax.swing.JDialog {
         jTxtCidade.setText(cliente.getVccCidade());
         jTxtCEP.setText(cliente.getVccCpf());
         jTxtEstado.setText(cliente.getVccEstados());
-        jTxtDataDeCadastro.setText(Util.dateToStr(cliente.getVccDataCadastro()));
-        jTxtDataUltimaCompra.setText(Util.dateToStr(cliente.getVccDataUltimaCompra()));
+        jTxtDataDeCadastro.setText(Util.dateToStr((Date) cliente.getVccDataCadastro()));
+        jTxtDataUltimaCompra.setText(Util.dateToStr((Date) cliente.getVccDataUltimaCompra()));
         jTxtStatusCliente.setText(cliente.getVccStatusCliente());
 
         if (cliente.getVccSexo() == "M") {
@@ -435,19 +444,37 @@ public class JDlgCliente extends javax.swing.JDialog {
         // TODO add your handling code here:
         limpar();
         habilitar(true);
+        incluir = true;
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
+        if (pesquisar == false) {
+            JDlgClientePesquisar telaPesquisa = new JDlgClientePesquisar(null, true);
+            telaPesquisa.setTelaAnterior(this);
+            telaPesquisa.setVisible(true);
+        }
         habilitar(true);
+        Util.habilitar(false, jTxtCodigo);
+        incluir = false;
+        pesquisar = false;
+
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
-        int resp = JOptionPane.showConfirmDialog(null, "Confirme a exclusão!", "Deletar o registro", JOptionPane.YES_OPTION);
-        if (resp == JOptionPane.YES_OPTION) {
+        if (pesquisar == false) {
+            JDlgClientePesquisar telaPesquisa = new JDlgClientePesquisar(null, true);
+            telaPesquisa.setTelaAnterior(this);
+            telaPesquisa.setVisible(true);
+        }
+        if (Util.perguntar("Confirme exclusão!", "Deletar registro")) {
+            VccCliente cliente = viewbean();
+            VccClienteDAO dao = new VccClienteDAO();
+            dao.delete(cliente);
             JOptionPane.showMessageDialog(null, "Exclusão realizada");
             limpar();
+
         } else {
             JOptionPane.showMessageDialog(null, "Exclusão cancelada");
             habilitar(false);
@@ -456,20 +483,32 @@ public class JDlgCliente extends javax.swing.JDialog {
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
+        VccCliente cliente = viewbean();
+        VccClienteDAO dao = new VccClienteDAO();
+        if (incluir == true) {
+            dao.insert(cliente);
+        } else {
+            dao.update(cliente);
+        }
         habilitar(false);
+
         limpar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
+        incluir = false;
         habilitar(false);
         limpar();
+
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
         JDlgClientePesquisar telaPesquisa = new JDlgClientePesquisar(null, true);
+        telaPesquisa.setTelaAnterior(this);
         telaPesquisa.setVisible(true);
+        pesquisar=true;
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     /**

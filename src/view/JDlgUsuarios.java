@@ -5,9 +5,13 @@
  */
 package view;
 
+
 import bean.VccUsuario;
+import dao.VccUsuarioDAO;
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import tools.Util;
 
@@ -20,6 +24,9 @@ public class JDlgUsuarios extends javax.swing.JDialog {
     /**
      * Creates new form JDlgUsuarios
      */
+    boolean incluir;
+    boolean pesquisar;
+
     public JDlgUsuarios(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -45,7 +52,7 @@ public class JDlgUsuarios extends javax.swing.JDialog {
         Util.limpar(jTxtCodigo, jTxtNome, jTxtApelido, jTxtCPF, jTxtDataDeNascimento, jTxtSenha, jCboNivel, jChbAtivo);
     }
 
-    private VccUsuario viewbean() throws ParseException {
+    private VccUsuario viewbean() {
         VccUsuario vcc_usuario = new VccUsuario();
 
         //adicionando ao bean id
@@ -55,7 +62,11 @@ public class JDlgUsuarios extends javax.swing.JDialog {
         vcc_usuario.setVccNome(jTxtNome.getText());
         vcc_usuario.setVccApelido(jTxtApelido.getText());
         vcc_usuario.setVccCpf(jTxtCPF.getText());
-        vcc_usuario.setVccDataNasc(Util.strToDate(jTxtDataDeNascimento.getText()));
+        try {
+            vcc_usuario.setVccDataNasc(Util.strToDate(jTxtDataDeNascimento.getText()));
+        } catch (ParseException ex) {
+            Logger.getLogger(JDlgUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
         vcc_usuario.setVccSenha(jTxtSenha.getText());
 
         vcc_usuario.setVccNivel(jCboNivel.getSelectedIndex());
@@ -70,7 +81,7 @@ public class JDlgUsuarios extends javax.swing.JDialog {
 
     }
 
-    private void beanview(VccUsuario usuario) {
+    void beanview(VccUsuario usuario) {
 
         jTxtCodigo.setText(Util.intToStr(usuario.getVccIdUsuario()));
         jTxtNome.setText(usuario.getVccNome());
@@ -293,27 +304,58 @@ public class JDlgUsuarios extends javax.swing.JDialog {
 
     private void jBtnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirActionPerformed
         // TODO add your handling code here:
-        limpar();
+         limpar();
         habilitar(true);
+        incluir = true;
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
-        habilitar(false);
-        limpar();
+       
+            // TODO add your handling code here:
+            VccUsuario usuarios = viewbean();
+            VccUsuarioDAO dao = new VccUsuarioDAO();
+            if (incluir == true) {
+                dao.insert(usuarios);
+            } else {
+                dao.update(usuarios);
+            }
+            habilitar(false);
+            
+            limpar();
+               
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
+       if (pesquisar == false) {
+            JDlgUsuariosPesquisar telaPesquisa = new JDlgUsuariosPesquisar(null, true);
+            telaPesquisa.setTelaAnterior(this);
+            telaPesquisa.setVisible(true);
+        }
         habilitar(true);
+        Util.habilitar(false, jTxtCodigo);
+        incluir = false;
+        pesquisar = false;
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
-        int resp = JOptionPane.showConfirmDialog(null, "Confirme a exclusão!", "Deletar o registro", JOptionPane.YES_OPTION);
-        if (resp == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(null, "Exclusão realizada");
-            limpar();
+
+        if (pesquisar == false) {
+            JDlgUsuariosPesquisar telaPesquisa = new JDlgUsuariosPesquisar(null, true);
+            telaPesquisa.setTelaAnterior(this);
+            telaPesquisa.setVisible(true);
+        }
+        if (Util.perguntar("Confirme exclusão!", "Deletar registro")) {
+            
+                 VccUsuario usuarios = viewbean();
+                 VccUsuarioDAO dao = new VccUsuarioDAO();
+                 dao.delete(usuarios);
+                 JOptionPane.showMessageDialog(null, "Exclusão realizada");
+                 limpar();
+        
+
         } else {
             JOptionPane.showMessageDialog(null, "Exclusão cancelada");
             habilitar(false);
@@ -322,14 +364,18 @@ public class JDlgUsuarios extends javax.swing.JDialog {
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
+        incluir = false;
         habilitar(false);
         limpar();
+
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
         // TODO add your handling code here:
         JDlgUsuariosPesquisar telaPesquisa = new JDlgUsuariosPesquisar(null, true);
+        telaPesquisa.setTelaAnterior(this);
         telaPesquisa.setVisible(true);
+         pesquisar=true;
     }//GEN-LAST:event_jBtnPesquisarActionPerformed
 
     /**

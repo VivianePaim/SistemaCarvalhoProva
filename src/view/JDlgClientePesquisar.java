@@ -4,20 +4,35 @@
  */
 package view;
 
+import bean.VccCliente;
+import dao.VccClienteDAO;
+import java.util.List;
+
 /**
  *
  * @author caviv
  */
 public class JDlgClientePesquisar extends javax.swing.JDialog {
 
-    /**
-     * Creates new form JDlgUsuarioPesquisar
-     */
+   
+    VccControllerCliente controllerCliente;
+    
+    JDlgCliente jDlgCliente;
+    
     public JDlgClientePesquisar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Tabela Pesquisa Cliente");
         setLocationRelativeTo(null);
+        
+        controllerCliente = new VccControllerCliente();
+        VccClienteDAO dao = new VccClienteDAO();
+        List lista = dao.listAll();
+        controllerCliente.setList(lista);
+        jTblPesquisa.setModel(controllerCliente);
+
+        
+        
     }
 
     /**
@@ -82,11 +97,24 @@ public class JDlgClientePesquisar extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setTelaAnterior(JDlgCliente jDlgCliete){
+        this.jDlgCliente = jDlgCliete;
+    }
+    
     private void jBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnOKActionPerformed
         // TODO add your handling code here:
+ 
+        
+        VccCliente cliente = controllerCliente.getBean(jTblPesquisa.getSelectedRow());
+        jDlgCliente.beanview(cliente);
+        
+        
+        
+        
+        
         this.setVisible(false);
     }//GEN-LAST:event_jBtnOKActionPerformed
-
+ 
     /**
      * @param args the command line arguments
      */

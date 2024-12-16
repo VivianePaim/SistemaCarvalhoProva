@@ -4,11 +4,20 @@
  */
 package view;
 
+import bean.VccUsuario;
+import dao.VccUsuarioDAO;
+import java.util.List;
+
 /**
  *
  * @author caviv
  */
 public class JDlgUsuariosPesquisar extends javax.swing.JDialog {
+    
+      VccControllerUsuarios controllerUsuarios;
+    
+    JDlgUsuarios jdlgUsuarios;
+    private JDlgUsuarios jDlgUsuarios;
 
     /**
      * Creates new form JDlgUsuarioPesquisar
@@ -18,6 +27,12 @@ public class JDlgUsuariosPesquisar extends javax.swing.JDialog {
         initComponents();
         setTitle("Tabela Pesquisa Usuários");
         setLocationRelativeTo(null);
+        
+        controllerUsuarios = new VccControllerUsuarios();
+        VccUsuarioDAO dao = new VccUsuarioDAO();
+        List lista = dao.listAll();
+        controllerUsuarios.setList(lista);
+        jTblPesquisa.setModel(controllerUsuarios);
     }
 
     /**
@@ -81,9 +96,16 @@ public class JDlgUsuariosPesquisar extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void setTelaAnterior(JDlgUsuarios jDlgUsuarios){
+        this.jDlgUsuarios = jDlgUsuarios;
+    }
     private void jBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnOKActionPerformed
         // TODO add your handling code here:
+      VccUsuario usuario = controllerUsuarios.getBean(jTblPesquisa.getSelectedRow());
+        jDlgUsuarios.beanview(usuario);
+        
+        
+        
         this.setVisible(false);
     }//GEN-LAST:event_jBtnOKActionPerformed
 
@@ -135,4 +157,6 @@ public class JDlgUsuariosPesquisar extends javax.swing.JDialog {
     private javax.swing.JScrollPane jSlpPesquisa;
     private javax.swing.JTable jTblPesquisa;
     // End of variables declaration//GEN-END:variables
+
+   
 }
