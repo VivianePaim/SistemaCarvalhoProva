@@ -107,11 +107,11 @@ public class JDlgCliente extends javax.swing.JDialog {
         jTxtDataUltimaCompra.setText(Util.dateToStr((Date) cliente.getVccDataUltimaCompra()));
         jTxtStatusCliente.setText(cliente.getVccStatusCliente());
 
-        if (cliente.getVccSexo() == "M") {
+        if ("M".equals(cliente.getVccSexo())) {
             jCboSexo.setSelectedIndex(0);
-        } else if (cliente.getVccSexo() == "F") {
+        } else if ("F".equals(cliente.getVccSexo())) {
             jCboSexo.setSelectedIndex(1);
-        } else if (cliente.getVccSexo() == "N") {
+        } else if ("N".equals(cliente.getVccSexo())) {
             jCboSexo.setSelectedIndex(2);
         }
     }

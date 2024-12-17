@@ -17,6 +17,8 @@ public class JFrmLogin extends javax.swing.JFrame {
      */
     public JFrmLogin() {
         initComponents();
+        setTitle("Login");
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -48,8 +50,10 @@ public class JFrmLogin extends javax.swing.JFrame {
         jLabel3.setText("Senha");
 
         jTxtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTxtUsuario.setText("viviane");
 
         jPwfSenha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jPwfSenha.setText("123");
 
         jBtnEntrar.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jBtnEntrar.setText("Entrar");

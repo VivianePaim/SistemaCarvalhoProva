@@ -127,7 +127,21 @@ public class VccProdutos  implements java.io.Serializable {
         this.vccTamanho = vccTamanho;
     }
 
+  @Override
+    public String toString() {
+        return this.getVccNome();
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof VccProdutos) {
+            VccProdutos produtos = (VccProdutos) obj;
+            if (produtos.getVccIdProdutos()== this.getVccIdProdutos()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 

@@ -54,11 +54,11 @@ public class JDlgVenda extends javax.swing.JFrame {
     private void habilitar(boolean status) {
         if (status) {
             Util.habilitar(true, jTxtID, jTxtTotal, jFmtData, jCboCliente, jCboFornecedor,
-                    jBtnCancelar, jBtnConfirmar);
+                    jBtnCancelar, jBtnConfirmar, jBtnIncluirProduto, jBtnAlterarProduto, jBtnExcluirProduto);
             Util.habilitar(false, jBtnIncluir, jBtnAlterar, jBtnPesquisar, jBtnExcluir);
         } else {
             Util.habilitar(false, jTxtID, jTxtTotal, jFmtData, jCboCliente, jCboFornecedor,
-                    jBtnCancelar, jBtnConfirmar);
+                    jBtnCancelar, jBtnConfirmar, jBtnIncluirProduto, jBtnAlterarProduto, jBtnExcluirProduto);
             Util.habilitar(true, jBtnIncluir, jBtnAlterar, jBtnPesquisar, jBtnExcluir);
         }
 
@@ -141,11 +141,25 @@ public class JDlgVenda extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jBtnIncluirProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/incluir.png"))); // NOI18N
-        jBtnIncluirProduto.setActionCommand("");
+        jBtnIncluirProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnIncluirProdutoActionPerformed(evt);
+            }
+        });
 
         jBtnAlterarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/alterar.png"))); // NOI18N
+        jBtnAlterarProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAlterarProdutoActionPerformed(evt);
+            }
+        });
 
         jBtnExcluirProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Excluir.png"))); // NOI18N
+        jBtnExcluirProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnExcluirProdutoActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("ID");
 
@@ -251,13 +265,13 @@ public class JDlgVenda extends javax.swing.JFrame {
                             .addComponent(jBtnExcluirProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(24, 24, 24))
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
+                .addGap(88, 88, 88)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTxtID, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jFmtData, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -402,6 +416,28 @@ public class JDlgVenda extends javax.swing.JFrame {
     private void jTxtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtTotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtTotalActionPerformed
+
+    private void jBtnIncluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirProdutoActionPerformed
+        // TODO add your handling code here:
+        JDlgVendaProduto jDlgVendaProduto = new JDlgVendaProduto(null, true);
+        jDlgVendaProduto.setVisible(true);
+    }//GEN-LAST:event_jBtnIncluirProdutoActionPerformed
+
+    private void jBtnAlterarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarProdutoActionPerformed
+        // TODO add your handling code here:
+        JDlgVendaProduto jDlgVendaProduto = new JDlgVendaProduto(null, true);
+        jDlgVendaProduto.setVisible(true);
+    }//GEN-LAST:event_jBtnAlterarProdutoActionPerformed
+
+    private void jBtnExcluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirProdutoActionPerformed
+        // TODO add your handling code here:
+        if (Util.perguntar("Confirme exclusão!", "Deletar registro")) {
+            Util.mostrar("Exclusão realizada");
+            habilitar(false);
+        } else {
+            Util.mostrar("Exclusão cancelada");
+        }
+    }//GEN-LAST:event_jBtnExcluirProdutoActionPerformed
 
     /**
      * @param args the command line arguments
