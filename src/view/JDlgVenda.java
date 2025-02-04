@@ -8,11 +8,14 @@ package view;
 import bean.VccCliente;
 import bean.VccFornecedor;
 import bean.VccVenda;
+import bean.VccVendasProdutos;
 import dao.VccClienteDAO;
 import dao.VccFornecedorDAO;
 import dao.VccVendaDAO;
+import dao.VccVendasProdutosDAO;
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,15 +32,20 @@ public class JDlgVenda extends javax.swing.JFrame {
      */
     boolean incluir;
     boolean pesquisar;
+    VccControllerVendaProduto vccControllerVendaProduto;
 
     public JDlgVenda() {
         initComponents();
         setTitle("Venda");
         setLocationRelativeTo(null);
+
+        vccControllerVendaProduto = new VccControllerVendaProduto();
+        vccControllerVendaProduto.setList(new ArrayList());
+        jTable1.setModel(vccControllerVendaProduto);
+
         habilitar(false);
         limpar();
-        
-        
+
         VccClienteDAO clienteDAO = new VccClienteDAO();
         List listaClientes = clienteDAO.listAll();
         for (Object cliente : listaClientes) {
@@ -48,7 +56,6 @@ public class JDlgVenda extends javax.swing.JFrame {
         for (Object fornecedor : listaFornecedores) {
             jCboFornecedor.addItem((VccFornecedor) fornecedor);
         }
-        
     }
 
     private void habilitar(boolean status) {
@@ -66,6 +73,7 @@ public class JDlgVenda extends javax.swing.JFrame {
 
     private void limpar() {
         Util.limpar(jTxtID, jTxtTotal, jFmtData, jCboCliente, jCboFornecedor);
+        vccControllerVendaProduto.setList(new ArrayList());
     }
 
     private VccVenda viewbean() {
@@ -92,6 +100,10 @@ public class JDlgVenda extends javax.swing.JFrame {
         jTxtTotal.setText(Util.doubleToStr(vcc_venda.getVccTotalVenda()));
         jCboCliente.setSelectedItem(vcc_venda.getVccCliente());
         jCboFornecedor.setSelectedItem(vcc_venda.getVccFornecedor());
+        
+        VccVendasProdutosDAO vccVendasProdutosDAO = new VccVendasProdutosDAO();
+        List listaProdutos = (List) vccVendasProdutosDAO.listProdutos(vcc_venda);
+        vccControllerVendaProduto.setList(listaProdutos);
     }
 
     /**
@@ -375,11 +387,16 @@ public class JDlgVenda extends javax.swing.JFrame {
         }
         if (Util.perguntar("Confirme exclusão!", "Deletar registro")) {
             VccVenda venda = viewbean();
-            VccVendaDAO dao = new VccVendaDAO();
-            dao.delete(venda);
+            VccVendaDAO daoVenda = new VccVendaDAO();
+            VccVendasProdutosDAO daoVendaProduto = new VccVendasProdutosDAO();
+            List listaProdutos = (List) daoVendaProduto.listProdutos(venda);
+            for (int i = 0; i < listaProdutos.size(); i++) {
+                daoVendaProduto.delete(listaProdutos.get(i));
+            }
+            daoVenda.delete(venda);
             Util.mostrar("Exclusão realizada");
             limpar();
-
+            pesquisar = false;
         } else {
             Util.mostrar("Exclusão cancelada");
             habilitar(false);
@@ -392,11 +409,14 @@ public class JDlgVenda extends javax.swing.JFrame {
         VccVendaDAO dao = new VccVendaDAO();
         if (incluir == true) {
             dao.insert(venda);
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                VccVendasProdutos vccVendasProdutos = vccControllerVendaProduto.getBean(i);
+                vccVendasProdutos.setVccVenda(venda);
+                dao.insert(vccVendasProdutos);
+            }
         } else {
-            dao.update(venda);
         }
         habilitar(false);
-
         limpar();
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
@@ -422,20 +442,22 @@ public class JDlgVenda extends javax.swing.JFrame {
     private void jBtnIncluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirProdutoActionPerformed
         // TODO add your handling code here:
         JDlgVendaProduto jDlgVendaProduto = new JDlgVendaProduto(null, true);
+        jDlgVendaProduto.setTelaAnterior(this);
         jDlgVendaProduto.setVisible(true);
     }//GEN-LAST:event_jBtnIncluirProdutoActionPerformed
 
     private void jBtnAlterarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarProdutoActionPerformed
         // TODO add your handling code here:
         JDlgVendaProduto jDlgVendaProduto = new JDlgVendaProduto(null, true);
+        jDlgVendaProduto.setTelaAnterior(this);
         jDlgVendaProduto.setVisible(true);
     }//GEN-LAST:event_jBtnAlterarProdutoActionPerformed
 
     private void jBtnExcluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirProdutoActionPerformed
         // TODO add your handling code here:
         if (Util.perguntar("Confirme exclusão!", "Deletar registro")) {
+            vccControllerVendaProduto.removeBean(vccControllerVendaProduto.getBean(jTable1.getSelectedRow()));
             Util.mostrar("Exclusão realizada");
-            habilitar(false);
         } else {
             Util.mostrar("Exclusão cancelada");
         }

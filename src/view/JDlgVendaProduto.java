@@ -7,9 +7,14 @@ package view;
 
 import bean.VccProdutos;
 import bean.VccVenda;
+import bean.VccVendasProdutos;
 import dao.VccProdutosDAO;
 import dao.VccVendaDAO;
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tools.Util;
 
 /**
@@ -21,23 +26,58 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
     /**
      * Creates new form JDlgVendaProduto
      */
+    JDlgVenda jDlgVenda;
+
     public JDlgVendaProduto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Venda Produto");
         setLocationRelativeTo(null);
-        
-        
-      
+
         VccProdutosDAO produtoDAO = new VccProdutosDAO();
         List listaProdutos = produtoDAO.listAll();
         for (Object produto : listaProdutos) {
             jCboProduto.addItem((VccProdutos) produto);
         }
+
+        Util.habilitar(false, jTxtValorUnitário, jTxtTotal);
+
+    }
+
+    public void setTelaAnterior(JDlgVenda jDlgVenda) {
+        this.jDlgVenda = jDlgVenda;
+    }
+
+    private VccVendasProdutos viewbean() {
+        VccVendasProdutos vccVendasProdutos = new VccVendasProdutos();
+        try {
+
+            vccVendasProdutos.setIdVccVendasProdutos(Util.strToInt(jTxtID.getText()));
+            vccVendasProdutos.setVccProdutos((VccProdutos) jCboProduto.getSelectedItem());
+            
+            vccVendasProdutos.setVccData(Util.strToDate(jFmtData.getText()));
+            int quant = Util.strToInt(jTxtQuantidade.getText());
+            double valorUnit = Util.strToDouble(jTxtValorUnitário.getText());
+            vccVendasProdutos.setVccTotal((int) (quant * valorUnit));
+
+        } catch (ParseException ex) {
+            Util.mostrar("Erro ao converter valores");
+        }
+        return vccVendasProdutos;
+    }
+    
+    public void viewbean(VccVendasProdutos vccVendasProdutos){
+        jTxtID.setText(Util.intToStr(vccVendasProdutos.getIdVccVendasProdutos()));
+        jCboProduto.setSelectedItem(vccVendasProdutos.getVccProdutos());
+        jFmtData.setText(Util.dateToStr((Date) vccVendasProdutos.getVccData()));
         
-        Util.habilitar(false, jTxtID, jTxtValorUnitário, jTxtTotal);
+        int total = vccVendasProdutos.getVccTotal();
+        jTxtTotal.setText(Util.intToStr(total));
         
-        
+        double valorUnit = vccVendasProdutos.getVccProdutos().getVccPreco();
+        int quant = (int) (total/valorUnit);
+        jTxtQuantidade.setText(Util.intToStr(quant));
+        jTxtValorUnitário.setText(Util.doubleToStr(valorUnit));    
     }
 
     /**
@@ -69,6 +109,12 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jCboProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCboProdutoActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Produto");
 
         jLabel3.setText("Quantidade");
@@ -96,6 +142,11 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
         jTxtQuantidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxtQuantidadeActionPerformed(evt);
+            }
+        });
+        jTxtQuantidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTxtQuantidadeKeyReleased(evt);
             }
         });
 
@@ -172,9 +223,9 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTxtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFmtData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFmtData, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -187,6 +238,7 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
 
     private void jBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnOKActionPerformed
         // TODO add your handling code here:
+        jDlgVenda.vccControllerVendaProduto.addBean(viewbean());
         this.dispose();
     }//GEN-LAST:event_jBtnOKActionPerformed
 
@@ -198,6 +250,26 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
     private void jTxtQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtQuantidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtQuantidadeActionPerformed
+
+    private void jCboProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCboProdutoActionPerformed
+        // TODO add your handling code here:
+        VccProdutos vccProduto = (VccProdutos) jCboProduto.getSelectedItem();
+        jTxtValorUnitário.setText(Util.doubleToStr(vccProduto.getVccPreco()));
+        jTxtTotal.setText(Util.doubleToStr(vccProduto.getVccPreco()));
+        jTxtQuantidade.setText("1");
+    }//GEN-LAST:event_jCboProdutoActionPerformed
+
+    private void jTxtQuantidadeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtQuantidadeKeyReleased
+        // TODO add your handling code here:
+        if (jTxtQuantidade.getText().equals("")) {
+            jTxtTotal.setText("0");
+        } else {
+            int quant = Util.strToInt(jTxtQuantidade.getText());
+            double unitario = Util.strToDouble(jTxtValorUnitário.getText());
+            jTxtTotal.setText(Util.doubleToStr(quant * unitario));
+            
+        }
+    }//GEN-LAST:event_jTxtQuantidadeKeyReleased
 
     /**
      * @param args the command line arguments

@@ -14,25 +14,22 @@ import java.util.List;
  */
 public class JDlgClientePesquisar extends javax.swing.JDialog {
 
-   
     VccControllerCliente controllerCliente;
-    
+
     JDlgCliente jDlgCliente;
-    
+
     public JDlgClientePesquisar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Tabela Pesquisa Cliente");
         setLocationRelativeTo(null);
-        
+
         controllerCliente = new VccControllerCliente();
         VccClienteDAO dao = new VccClienteDAO();
         List lista = dao.listAll();
         controllerCliente.setList(lista);
         jTblPesquisa.setModel(controllerCliente);
 
-        
-        
     }
 
     /**
@@ -97,19 +94,19 @@ public class JDlgClientePesquisar extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setTelaAnterior(JDlgCliente jDlgCliete){
+    public void setTelaAnterior(JDlgCliente jDlgCliete) {
         this.jDlgCliente = jDlgCliete;
     }
-    
+
     private void jBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnOKActionPerformed
         // TODO add your handling code here:
         int rowSel = jTblPesquisa.getSelectedRow();
-        VccCliente vccClientes = controllerCliente.getBean(rowSel);
-        jDlgCliente.beanview(vccClientes);
+        VccCliente clientesAus = controllerCliente.getBean(rowSel);
+        jDlgCliente.beanview(clientesAus);
         this.dispose();
 
     }//GEN-LAST:event_jBtnOKActionPerformed
- 
+
     /**
      * @param args the command line arguments
      */

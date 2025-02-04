@@ -30,9 +30,6 @@ public class JDlgVendaPesquisar extends javax.swing.JDialog {
         List lista = dao.listAll();
         controllerVenda.setList(lista);
         jTblPesquisa.setModel(controllerVenda);
-
-        
-        
     }
 
     /**

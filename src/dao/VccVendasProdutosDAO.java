@@ -5,6 +5,7 @@
  */
 package dao;
 
+import bean.VccVenda;
 import bean.VccVendasProdutos;
 import java.util.ArrayList;
 import org.hibernate.Criteria;
@@ -47,6 +48,15 @@ public class VccVendasProdutosDAO extends DAO_Abstract {
         ArrayList lista = (ArrayList) criteria.list();
         session.getTransaction().commit();
         return lista.get(0);
+    }
+
+    public Object listProdutos(VccVenda venda) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(VccVendasProdutos.class);
+        criteria.add(Restrictions.eq("vccVenda", venda));
+        ArrayList lista = (ArrayList) criteria.list();
+        session.getTransaction().commit();
+        return lista;
     }
 
     @Override
