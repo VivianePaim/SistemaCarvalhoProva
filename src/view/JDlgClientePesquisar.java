@@ -81,7 +81,7 @@ public class JDlgClientePesquisar extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jBtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSlpPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, 837, Short.MAX_VALUE))
+                    .addComponent(jSlpPesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -103,16 +103,11 @@ public class JDlgClientePesquisar extends javax.swing.JDialog {
     
     private void jBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnOKActionPerformed
         // TODO add your handling code here:
- 
-        
-        VccCliente cliente = controllerCliente.getBean(jTblPesquisa.getSelectedRow());
-        jDlgCliente.beanview(cliente);
-        
-        
-        
-        
-        
-        this.setVisible(false);
+        int rowSel = jTblPesquisa.getSelectedRow();
+        VccCliente vccClientes = controllerCliente.getBean(rowSel);
+        jDlgCliente.beanview(vccClientes);
+        this.dispose();
+
     }//GEN-LAST:event_jBtnOKActionPerformed
  
     /**
